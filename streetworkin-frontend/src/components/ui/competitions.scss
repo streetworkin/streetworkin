@@ -1,0 +1,176 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+
+// Bulle glass englobant titre + intro + grille + CTA
+.competitions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 95%;
+  margin: $large-vertical-section-spacing auto;
+  padding: 3rem 2.5rem;
+  @include glass-bubble;
+
+  // Trait décoratif violet au-dessus du titre (cohérent avec Disciplines)
+  &__separator {
+    width: 60px;
+    height: 3px;
+    border-radius: 2px;
+    background: $main-accent-color-violet;
+  }
+
+  &__heading {
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 2.5rem;
+    color: white;
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__heading-accent {
+    color: $main-accent-color-violet;
+  }
+
+  &__intro {
+    margin: 0;
+    max-width: 720px;
+    font-family: $main-font-family-stack;
+    font-size: 1rem;
+    color: rgb(255 255 255 / 70%);
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  // Grid auto-fit : nombre de colonnes adaptatif selon largeur dispo
+  // (3 colonnes desktop → 2 → 1 sur mobile, sans breakpoint manuel pour le nb)
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  // ─── Carte de compétition ───
+  &__card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    @include glass-bubble;
+    @include card-hover-lift;
+  }
+
+  // En-tête de la carte : date avec icône calendrier sur bandeau violet teinté
+  &__card-date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    background: rgba($main-accent-color-violet, 0.14);
+    font-family: $main-font-family-stack;
+    font-size: 1rem;
+    color: $main-accent-color-violet;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  // Icône inline (calendrier dans le header, pin dans le body)
+  &__card-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.5rem;
+  }
+
+  &__card-name {
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 1.15rem;
+    color: white;
+    letter-spacing: 0.3px;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
+  &__card-location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 0.9rem;
+    color: rgb(255 255 255 / 65%);
+    line-height: 1.4;
+  }
+
+  // ─── Tablette ───
+  @include tablet {
+    margin: $compact-vertical-section-spacing auto;
+    padding: 2.5rem 1.75rem;
+
+    &__heading {
+      font-size: 2rem;
+    }
+
+    &__grid {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+  }
+
+  // ─── Mobile ───
+  @include mobile {
+    margin: $compact-vertical-section-spacing auto;
+    padding: 2rem 1rem;
+    border-radius: $medium-corner-radius-size;
+    gap: 1.25rem;
+
+    &__heading {
+      font-size: 1.5rem;
+    }
+
+    &__intro {
+      font-size: 0.9rem;
+    }
+
+    &__grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    &__card-date {
+      padding: 0.75rem 1.25rem;
+      font-size: 0.9rem;
+    }
+
+    &__card-body {
+      gap: 0.5rem;
+      padding: 1.25rem;
+    }
+
+    &__card-name {
+      font-size: 1rem;
+    }
+
+    &__card-location {
+      font-size: 0.85rem;
+    }
+  }
+}

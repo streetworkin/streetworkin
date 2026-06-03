@@ -1,0 +1,425 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+
+// Bulle glass globale qui englobe badge, titre, intro et la carte HelloAsso
+.membership-checkout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 95%;
+  margin: $compact-vertical-section-spacing auto $large-vertical-section-spacing;
+  padding: 3rem 2.5rem;
+  @include glass-bubble;
+
+  &__badge {
+    padding: 0.4rem 1.25rem;
+    border-radius: $small-corner-radius-size;
+    background: rgba($main-accent-color-violet, 0.12);
+    font-family: $main-font-family-stack;
+    font-size: 0.95rem;
+    color: $main-accent-color-violet;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  &__heading {
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 2.5rem;
+    color: white;
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__heading-accent {
+    color: $main-accent-color-violet;
+  }
+
+  &__intro {
+    margin: 0 0 0.5rem;
+    max-width: 720px;
+    font-family: $main-font-family-stack;
+    font-size: 1rem;
+    color: rgb(255 255 255 / 70%);
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  // ─── Carte principale : reprend le pattern du widget HelloAsso ───
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 720px;
+    padding: 0 0 2rem;
+    overflow: hidden;
+    @include glass-bubble;
+  }
+
+  // Bandeau "Paiement sécurisé" en haut de la carte (couleur d'accent violette)
+  &__secure-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.9rem 1.5rem;
+    background: $main-accent-color-violet;
+    font-family: $main-font-family-stack;
+    font-size: 1rem;
+    color: white;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  &__secure-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+  }
+
+  // Compteur d'adhérents — icône user + chiffre violet + libellé
+  &__counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0 1.5rem;
+    font-family: $main-font-family-stack;
+    font-size: 1rem;
+    color: rgb(255 255 255 / 80%);
+  }
+
+  &__counter-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    color: $main-accent-color-violet;
+  }
+
+  &__counter-value {
+    font-family: $main-font-family-stack;
+    font-size: 1.4rem;
+    color: $main-accent-color-violet;
+  }
+
+  // ─── Onglets du tunnel ───
+  &__tabs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0 1.5rem;
+  }
+
+  &__tab {
+    padding: 0.7rem 0.5rem;
+    border: 1px solid rgb(255 255 255 / 12%);
+    border-radius: $small-corner-radius-size;
+    background: rgb(255 255 255 / 4%);
+    font-family: $main-font-family-stack;
+    font-size: 0.85rem;
+    color: rgb(255 255 255 / 65%);
+    letter-spacing: 0.5px;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      background $fast-animation-transition,
+      color $fast-animation-transition,
+      border-color $fast-animation-transition;
+
+    &:hover {
+      background: rgb(255 255 255 / 8%);
+      color: white;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $accessibility-focus-outline-color;
+      outline-offset: 2px;
+    }
+  }
+
+  // Onglet actif : fond violet, texte blanc
+  &__tab--active {
+    background: $main-accent-color-violet;
+    border-color: $main-accent-color-violet;
+    color: white;
+
+    &:hover {
+      background: rgba($main-accent-color-violet, 0.9);
+    }
+  }
+
+  // ─── Contenu de l'étape ───
+  &__step {
+    padding: 0 1.5rem;
+  }
+
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  // Placeholder pour les étapes 2-4 (en attente du branchement HelloAsso)
+  &__placeholder {
+    margin: 0;
+    padding: 2.5rem 1rem;
+    border-radius: $medium-corner-radius-size;
+    background: rgb(255 255 255 / 4%);
+    font-family: $main-font-family-stack;
+    font-size: 0.95rem;
+    color: rgb(255 255 255 / 55%);
+    text-align: center;
+    font-style: italic;
+  }
+
+  // ─── Carte d'une option (annuel / mensuel) ───
+  &__option {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.5rem 1.25rem;
+    border-radius: $medium-corner-radius-size;
+    background: rgb(255 255 255 / 4%);
+  }
+
+  &__option-name {
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 1.05rem;
+    color: white;
+    letter-spacing: 0.5px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__option-description {
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 0.85rem;
+    color: rgb(255 255 255 / 70%);
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  &__option-limit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 0.85rem;
+    color: $main-accent-color-violet;
+  }
+
+  &__option-limit-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+  }
+
+  &__option-price {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.4rem;
+    margin: 0.25rem 0 0;
+  }
+
+  &__option-price-value {
+    font-family: $main-font-family-stack;
+    font-size: 2rem;
+    color: white;
+    line-height: 1;
+  }
+
+  &__option-price-period {
+    font-family: $main-font-family-stack;
+    font-size: 0.95rem;
+    color: rgb(255 255 255 / 60%);
+  }
+
+  &__option-total {
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 0.8rem;
+    color: rgb(255 255 255 / 50%);
+    text-align: center;
+  }
+
+  // ─── Sélecteur de quantité [-] [valeur] [+] ───
+  &__quantity {
+    display: grid;
+    grid-template-columns: 44px 1fr 44px;
+    align-items: stretch;
+    gap: 0.5rem;
+    align-self: center;
+    width: 180px;
+    margin-top: 0.5rem;
+  }
+
+  &__quantity-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    border: 1px solid rgb(255 255 255 / 12%);
+    border-radius: $small-corner-radius-size;
+    background: rgb(255 255 255 / 6%);
+    font-family: $main-font-family-stack;
+    font-size: 1.4rem;
+    color: white;
+    cursor: pointer;
+    transition:
+      background $fast-animation-transition,
+      border-color $fast-animation-transition;
+
+    &:hover:not(:disabled) {
+      background: rgb(255 255 255 / 12%);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $accessibility-focus-outline-color;
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  // Variante "+" : accent violet pour l'action positive
+  &__quantity-btn--plus:not(:disabled) {
+    background: $main-accent-color-violet;
+    border-color: $main-accent-color-violet;
+
+    &:hover {
+      background: rgba($main-accent-color-violet, 0.9);
+    }
+  }
+
+  &__quantity-value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(255 255 255 / 12%);
+    border-radius: $small-corner-radius-size;
+    background: rgb(255 255 255 / 4%);
+    font-family: $main-font-family-stack;
+    font-size: 1.1rem;
+    color: white;
+    user-select: none;
+  }
+
+  // ─── CTA "Continuer" en bas de carte + hint d'indisponibilité ───
+  // Wrapper qui groupe bouton + message pour les serrer (gap court),
+  // séparé du reste du card par le gap général du `__card`.
+  &__cta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin: 0 1.5rem;
+  }
+
+  &__continue {
+    @include cta-button-violet;
+
+    // Disabled state: same violet but flatter, no hover lift, faded look.
+    &:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+      background: rgba($main-accent-color-violet, 0.35);
+      box-shadow: none;
+      color: rgb(255 255 255 / 80%);
+    }
+  }
+
+  // Message centré sous le bouton — ton discret italique
+  &__cta-hint {
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 0.85rem;
+    color: rgb(255 255 255 / 55%);
+    letter-spacing: 0.3px;
+    text-align: center;
+    font-style: italic;
+  }
+
+  // ─── Tablette ───
+  @include tablet {
+    padding: 2.5rem 1.75rem;
+
+    &__heading {
+      font-size: 2rem;
+    }
+
+    &__tabs {
+      gap: 0.35rem;
+    }
+
+    &__tab {
+      font-size: 0.75rem;
+    }
+  }
+
+  // ─── Mobile : tabs en grille 2×2, padding et tailles réduits ───
+  @include mobile {
+    padding: 2rem 1rem;
+    border-radius: $medium-corner-radius-size;
+
+    &__heading {
+      font-size: 1.5rem;
+    }
+
+    &__intro {
+      font-size: 0.9rem;
+    }
+
+    &__card {
+      padding-bottom: 1.5rem;
+    }
+
+    &__secure-banner {
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+    }
+
+    &__counter,
+    &__tabs,
+    &__step {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    &__cta {
+      margin: 0 1rem;
+    }
+
+    &__tabs {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    &__option-name {
+      font-size: 1rem;
+    }
+
+    &__option-price-value {
+      font-size: 1.75rem;
+    }
+  }
+}

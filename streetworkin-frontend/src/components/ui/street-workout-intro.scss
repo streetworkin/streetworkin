@@ -1,0 +1,124 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+
+// Section "intro vidéo" sur 2 colonnes (vidéo gauche, texte droite)
+.street-workout-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 3rem;
+  width: 95%;
+  margin: $large-vertical-section-spacing auto;
+  padding: 3rem 2.5rem;
+  @include glass-bubble;
+
+  // ─── Colonne gauche : conteneur vidéo portrait 9:16 (source 720×1280) ───
+  // Largeur contrainte pour éviter qu'une vidéo portrait ne devienne un mur vertical
+  // dans la colonne du grid (sinon ~600px de large × 1066px de haut = monstrueux).
+  &__media {
+    width: 100%;
+    max-width: 360px;
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    border-radius: $medium-corner-radius-size;
+    box-shadow: $strong-card-box-shadow;
+    justify-self: center;
+  }
+
+  &__video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  // ─── Colonne droite : contenu textuel ───
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  // Pill badge "Découvrir" avec icône
+  &__badge {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    background: rgba($main-accent-color-violet, 0.14);
+    font-family: $main-font-family-stack;
+    font-size: 0.9rem;
+    color: $main-accent-color-violet;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  &__badge-icon {
+    display: inline-flex;
+    align-items: center;
+    width: 16px;
+    height: 16px;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__heading {
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 2.5rem;
+    color: white;
+    letter-spacing: 0.5px;
+    line-height: 1.15;
+  }
+
+  &__heading-accent {
+    color: $main-accent-color-violet;
+  }
+
+  &__description {
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 1rem;
+    color: rgb(255 255 255 / 75%);
+    line-height: 1.6;
+
+    em {
+      color: rgb(255 255 255 / 90%);
+      font-style: italic;
+    }
+  }
+
+  // ─── Tablette ───
+  @include tablet {
+    margin: $compact-vertical-section-spacing auto;
+    padding: 2.5rem 1.75rem;
+    gap: 2rem;
+
+    &__heading {
+      font-size: 2rem;
+    }
+  }
+
+  // ─── Mobile : on stack verticalement (vidéo au-dessus, texte en-dessous) ───
+  @include mobile {
+    grid-template-columns: 1fr;
+    margin: $compact-vertical-section-spacing auto;
+    padding: 2rem 1rem;
+    border-radius: $medium-corner-radius-size;
+    gap: 1.5rem;
+
+    &__heading {
+      font-size: 1.5rem;
+    }
+
+    &__description {
+      font-size: 0.9rem;
+    }
+  }
+}

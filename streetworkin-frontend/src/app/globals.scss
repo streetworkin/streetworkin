@@ -1,0 +1,97 @@
+:root {
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  min-height: 100%;
+  overflow-x: clip;
+  // Scroll fluide vers les ancres (Street Workout, Le directoire, etc.)
+  scroll-behavior: smooth;
+  // Offset pour compenser le header sticky qui recouvrirait la section ciblée
+  scroll-padding-top: 140px;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji";
+  background: #0a0f14;
+}
+
+main {
+  margin: 0;
+}
+
+.site-shell {
+  position: relative;
+  min-height: 100dvh;
+}
+
+.site-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/*
+  Éviter z-index négatif : avec isolation, la couche peut se retrouver sous le fond du body
+  et la vidéo devient invisible. 0 = fond, 1 = contenu pages.
+*/
+.site-media-root {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  /* Couvre le viewport sans 100vw (évite la barre de défilement + débordement) */
+  width: 100%;
+  height: 100%;
+  min-height: 100dvh;
+}
+
+.site-media-gradient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Voile léger : si la vidéo est noire au début, on voit quand même du mouvement dès que ça lit */
+  background: radial-gradient(
+    circle at 30% 20%,
+    rgba(10, 18, 28, 0.18) 0%,
+    rgba(8, 12, 18, 0.35) 50%,
+    rgba(5, 7, 11, 0.45) 100%
+  );
+}
+
+.site-media-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+  opacity: 1;
+  pointer-events: none;
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.site-media-video--blurred {
+  filter: blur(12px) brightness(0.85);
+  transform: scale(1.1);
+}
+
+.site-media-root--hidden {
+  opacity: 0;
+  pointer-events: none;
+}

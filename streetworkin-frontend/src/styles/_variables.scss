@@ -1,0 +1,50 @@
+// All the design tokens (colors, sizes, fonts, breakpoints) used across the app.
+// Keeping them here means a single edit changes the whole site at once.
+
+
+// ─── Glass effect (the see-through bubble look) ──────────────────────
+$glass-effect-background-color: rgb(255 255 255 / 10%);
+$glass-effect-background-color-on-hover: rgb(255 255 255 / 14%);
+
+
+// ─── Box shadows (light to strong) ───────────────────────────────────
+$small-card-box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
+$strong-card-box-shadow: 0 4px 10px rgb(0 0 0 / 30%);
+$small-button-box-shadow: 0 2px 8px rgb(0 0 0 / 22%);
+$strong-button-box-shadow-on-hover: 0 4px 12px rgb(0 0 0 / 28%);
+
+
+// ─── Corner radius sizes (small, medium, large) ──────────────────────
+$small-corner-radius-size: 10px;
+$medium-corner-radius-size: 15px;
+$large-corner-radius-size: 20px;
+
+
+// ─── Brand colors ────────────────────────────────────────────────────
+$main-brand-color-purple: #844C82;             // base brand purple
+$accessibility-focus-outline-color: #4d8bff;   // visible blue outline shown on keyboard focus
+$main-accent-color-violet: #a855f7;            // accent color used on badges, hovers, titles
+$header-cta-button-color: #6F19C5;             // deeper violet only used by the header "Nous rejoindre" button
+
+
+// ─── Overlay tints (small dark pill behind icons on top of media) ────
+$overlay-button-background-color: rgb(0 0 0 / 55%);
+$overlay-button-background-color-on-hover: rgb(0 0 0 / 75%);
+
+
+// ─── Standard short animation duration ──────────────────────────────
+$fast-animation-transition: 0.2s ease;
+
+
+// ─── Main font family used by every component ──────────────────────
+$main-font-family-stack: var(--font-anton), ui-sans-serif, system-ui, sans-serif;
+
+
+// ─── Vertical spacing between "bubble" sections on the home page ────
+$large-vertical-section-spacing: 150px;
+$compact-vertical-section-spacing: 100px;
+
+
+// ─── Responsive breakpoints (max widths) ────────────────────────────
+$tablet-breakpoint-max-width: 1024px;
+$mobile-breakpoint-max-width: 768px;

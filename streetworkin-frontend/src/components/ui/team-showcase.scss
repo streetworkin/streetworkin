@@ -1,0 +1,179 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+
+// Bulle glass unique qui englobe les 3 sous-sections (Bureau / Pôles / Présidents)
+.team-showcase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  width: 95%;
+  margin: $large-vertical-section-spacing auto;
+  padding: 3rem 2.5rem;
+  @include glass-bubble;
+
+  // ─── Sous-section (Bureau National, Nos Pôles, Présidents Régionaux) ───
+  // Conteneur de layout uniquement — la bulle est sur le parent .team-showcase
+  &__section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  &__heading {
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 2rem;
+    color: white;
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__heading-accent {
+    color: $main-accent-color-violet;
+  }
+
+  &__description {
+    margin: 0;
+    max-width: 720px;
+    font-family: $main-font-family-stack;
+    font-size: 1rem;
+    color: rgb(255 255 255 / 70%);
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  // ─── Grille de cartes : adaptative en fonction de la largeur dispo ───
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  // ─── Carte d'un membre ───
+  &__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.75rem 1rem;
+    @include glass-bubble;
+    @include card-hover-lift;
+  }
+
+  // ─── Avatar (photo ou dégradé avec initiales) ───
+  &__avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 110px;
+    height: 110px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $main-brand-color-purple, $main-accent-color-violet);
+    box-shadow: $strong-card-box-shadow;
+  }
+
+  &__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__initials {
+    font-family: $main-font-family-stack;
+    font-size: 2.5rem;
+    color: white;
+    letter-spacing: 1px;
+  }
+
+  &__name {
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 1rem;
+    color: white;
+    letter-spacing: 0.5px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__role {
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 0.85rem;
+    color: rgb(255 255 255 / 60%);
+    text-align: center;
+  }
+
+  // ─── Tablette ───
+  @include tablet {
+    margin: $compact-vertical-section-spacing auto;
+    padding: 2.5rem 1.75rem;
+    gap: 2.5rem;
+
+    &__heading {
+      font-size: 1.75rem;
+    }
+
+    &__grid {
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+
+    &__avatar {
+      width: 95px;
+      height: 95px;
+    }
+
+    &__initials {
+      font-size: 2.2rem;
+    }
+  }
+
+  // ─── Mobile ───
+  @include mobile {
+    margin: $compact-vertical-section-spacing auto;
+    padding: 2rem 1rem;
+    gap: 2rem;
+    border-radius: $medium-corner-radius-size;
+
+    &__heading {
+      font-size: 1.5rem;
+    }
+
+    &__description {
+      font-size: 0.9rem;
+    }
+
+    &__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    &__card {
+      gap: 0.75rem;
+      padding: 1.25rem 0.75rem;
+    }
+
+    &__avatar {
+      width: 80px;
+      height: 80px;
+    }
+
+    &__initials {
+      font-size: 1.75rem;
+    }
+
+    &__name {
+      font-size: 0.85rem;
+    }
+
+    &__role {
+      font-size: 0.75rem;
+    }
+  }
+}

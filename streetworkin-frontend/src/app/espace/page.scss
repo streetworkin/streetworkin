@@ -1,0 +1,24 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.espace {
+  &__hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100dvh - 140px);
+  }
+
+  &__title {
+    font-family: $main-font-family-stack;
+    font-size: 3rem;
+    color: white;
+    text-align: center;
+  }
+
+  @include mobile {
+    &__title {
+      font-size: 2rem;
+    }
+  }
+}

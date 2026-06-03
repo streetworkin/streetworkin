@@ -1,0 +1,129 @@
+// Use Mixins and Variables
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+
+.site-content {
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__main {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  // Desktop : tout en `dvh` comme la version mobile → position et hauteur
+  // identiques en proportion sur 1080p, 1440p, 4K, ultrawide, etc.
+  &__welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 42dvh 1rem 2rem;
+  }
+
+  &__logo {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: min(800px, 100%);
+    max-width: 100%;
+    height: 32dvh;
+    overflow: hidden;
+    margin-top: 0;
+    @include glass-bubble;
+
+    img {
+      object-fit: cover;
+    }
+  }
+
+
+  // ─── Version Tablette ─── //
+  // Tout en `dvh` comme desktop/mobile → composition identique sur toutes les tablettes
+  @include tablet {
+    &__welcome {
+      padding: 42dvh 1.5rem 2rem;
+    }
+
+    &__logo {
+      width: min(650px, 100%);
+      height: 30dvh;
+      border-radius: $medium-corner-radius-size;
+    }
+  }
+ 
+
+
+  // ─── Version Mobile ─── //
+  // Tout en `dvh` : position ET hauteur du bubble. Sans ça, la bulle (en px fixes)
+  // prend une proportion différente du viewport selon le modèle d'iPhone, ce qui
+  // décale le ratio visuel. Avec tout en dvh, la composition est identique sur
+  // n'importe quel téléphone (SE, 14, Pro Max, Android…).
+  @include mobile {
+    &__welcome {
+      padding: 45dvh 1rem 2rem;
+    }
+
+    &__logo {
+      width: 100%;
+      height: 25dvh;
+      border-radius: $medium-corner-radius-size;
+      margin-top: 0;
+
+      img {
+        object-fit: contain;
+      }
+    }
+  }
+}
+
+
+// ─── Section partenaires (bulle glass qui englobe titre + carousel) ──────
+// Le carousel lui-même est dans son propre bloc BEM `.image-marquee`
+// (cf. src/components/ui/image-marquee.scss)
+.partners {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 95%;
+  gap: 2rem;
+  margin: $large-vertical-section-spacing auto;
+  padding: 3rem 2.5rem;
+  @include glass-bubble;
+
+  &__title {
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 3rem;
+    color: white;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+
+  @include tablet {
+    margin: $compact-vertical-section-spacing auto;
+    padding: 2.5rem 1.75rem;
+    gap: 1.5rem;
+
+    &__title {
+      font-size: 2.5rem;
+    }
+  }
+
+  @include mobile {
+    margin: $compact-vertical-section-spacing auto;
+    padding: 2rem 1rem;
+    gap: 1rem;
+    border-radius: $medium-corner-radius-size;
+
+    &__title {
+      font-size: 2rem;
+    }
+  }
+}

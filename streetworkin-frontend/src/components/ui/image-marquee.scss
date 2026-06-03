@@ -1,0 +1,94 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+
+// Animation infinie droite → gauche.
+// Comme les items sont dupliqués dans le DOM (2 copies), translater de 0 à -50%
+// signifie translater d'EXACTEMENT une copie. À la fin, la position visuelle
+// est identique au début → boucle parfaite, aucun saut visible.
+@keyframes image-marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+
+// Carousel marquee — bloc BEM autonome, réutilisable.
+// Animation 100% CSS (cf. @keyframes ci-dessus + classe `__track` plus bas).
+.image-marquee {
+  overflow: hidden;
+  width: 100%;
+  // Fade aux extrémités pour un défilement net (pas de coupure brutale au bord)
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+
+  // Pause-on-hover : le user peut s'arrêter sur un logo qui l'intéresse
+  &:hover &__track {
+    animation-play-state: paused;
+  }
+
+  // Track : ligne horizontale qui défile, sizée au contenu (2 copies des items)
+  &__track {
+    display: flex;
+    gap: 2rem;
+    width: max-content;
+    min-width: max-content;
+    // 30s pour faire un cycle complet (les 2 copies). À ajuster si besoin.
+    animation: image-marquee-scroll 30s linear infinite;
+    will-change: transform;
+  }
+
+  // ─── Accessibilité ───
+  // `prefers-reduced-motion` : on ralentit (60s au lieu de 30s) plutôt que de
+  // stopper net. Le mouvement reste perceptible mais beaucoup moins agressif.
+  @media (prefers-reduced-motion: reduce) {
+    &__track {
+      animation-duration: 60s;
+    }
+  }
+
+  // Card carrée — adaptée pour des logos contenus dans une vignette claire.
+  // Fond blanc translucide pour faire ressortir les logos (souvent foncés ou en couleur).
+  &__card {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    height: 140px;
+    border-radius: $medium-corner-radius-size;
+    background: rgb(255 255 255 / 92%);
+    box-shadow: $small-card-box-shadow;
+  }
+
+  // Logo contenu (pas rogné) dans la card avec du blanc autour
+  &__img {
+    max-width: 70%;
+    max-height: 70%;
+    object-fit: contain;
+  }
+
+  // ─── Tablette ───
+  @include tablet {
+    &__card {
+      width: 120px;
+      height: 120px;
+    }
+  }
+
+  // ─── Mobile ───
+  @include mobile {
+    &__track {
+      gap: 1.25rem;
+    }
+
+    &__card {
+      width: 100px;
+      height: 100px;
+    }
+  }
+}

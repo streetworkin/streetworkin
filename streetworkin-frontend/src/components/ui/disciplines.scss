@@ -1,0 +1,269 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+
+// Bulle glass unique englobant l'intro + la grille des 4 disciplines
+.disciplines {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 95%;
+  margin: $large-vertical-section-spacing auto;
+  padding: 3rem 2.5rem;
+  @include glass-bubble;
+
+  // Petit trait décoratif au-dessus du titre (cohérent avec la maquette)
+  &__separator {
+    width: 60px;
+    height: 3px;
+    border-radius: 2px;
+    background: $main-accent-color-violet;
+  }
+
+  &__heading {
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 2.5rem;
+    color: white;
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__heading-accent {
+    color: $main-accent-color-violet;
+  }
+
+  &__intro {
+    margin: 0;
+    max-width: 720px;
+    font-family: $main-font-family-stack;
+    font-size: 1rem;
+    color: rgb(255 255 255 / 70%);
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  // ─── Showcase : colonne de cartes (gauche) + vidéo (droite) sur desktop ───
+  // La colonne de cartes est capée à 480px.
+  // `justify-content: space-between` pousse les cartes au bord gauche
+  // et la vidéo au bord droit de la bulle.
+  // Sur tablette/mobile, passe en stack vertical (cf. media queries plus bas).
+  &__showcase {
+    display: grid;
+    grid-template-columns: minmax(0, 480px) auto;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2.5rem;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  // ─── Diviseur de groupe : lignes décoratives + label central en pastille ───
+  // Apparaît entre deux groupes de disciplines pour les catégoriser visuellement.
+  // `grid-column: 1 / -1` → span toute la largeur, valide sur 1 col (desktop)
+  // comme sur 2 cols (tablette/mobile).
+  &__group-divider {
+    display: flex;
+    grid-column: 1 / -1;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    margin: 0.5rem 0;
+
+    // Lignes fades sur les côtés, accent violet au centre
+    &::before,
+    &::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba($main-accent-color-violet, 0.45),
+        transparent
+      );
+    }
+  }
+
+  // Pastille centrale du divider — reprend le style des badges violets du site
+  &__group-label {
+    flex-shrink: 0;
+    padding: 0.4rem 1.25rem;
+    border-radius: $small-corner-radius-size;
+    background: rgba($main-accent-color-violet, 0.12);
+    font-family: $main-font-family-stack;
+    font-size: 0.95rem;
+    color: $main-accent-color-violet;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  // ─── Carte horizontale sur desktop : icône à gauche, nom + description à droite
+  // Grid 2×2 interne : icône occupe la colonne 1 sur 2 lignes,
+  // nom (ligne 1) et description (ligne 2) en colonne 2. Aucun wrapper JSX requis.
+  &__card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 0.25rem 1.25rem;
+    padding: 1.5rem;
+    @include glass-bubble;
+    @include card-hover-lift;
+  }
+
+  // ─── Icône dans un cercle teinté violet ───
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-row: span 2;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: rgba($main-accent-color-violet, 0.12);
+    color: $main-accent-color-violet;
+
+    svg {
+      width: 35px;
+      height: 35px;
+    }
+  }
+
+  &__name {
+    margin: 0;
+    grid-column: 2;
+    font-family: $main-font-family-stack;
+    font-size: 1.25rem;
+    color: white;
+    letter-spacing: 0.5px;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  &__description {
+    margin: 0;
+    grid-column: 2;
+    font-family: $main-font-family-stack;
+    font-size: 0.9rem;
+    color: rgb(255 255 255 / 60%);
+    text-align: left;
+  }
+
+  // ─── Vidéo d'aperçu (colonne droite de la showcase) ───
+  // Format portrait 9:16 (source 720×1280). Largeur contrainte à 360px max
+  // pour rester équilibrée à côté de la colonne de cartes.
+  &__media {
+    width: 100%;
+    max-width: 360px;
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    border-radius: $medium-corner-radius-size;
+    box-shadow: $strong-card-box-shadow;
+  }
+
+  &__video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  // ─── Tablette : showcase stack vertical, cartes 2×2 redeviennent verticales ───
+  @include tablet {
+    margin: $compact-vertical-section-spacing auto;
+    padding: 2.5rem 1.75rem;
+
+    &__heading {
+      font-size: 2rem;
+    }
+
+    &__showcase {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    &__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    // Carte redevient flex column (icône en haut, texte centré dessous)
+    &__card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 2rem 1rem;
+    }
+
+    &__name {
+      text-align: center;
+    }
+
+    &__description {
+      text-align: center;
+    }
+
+    &__media {
+      justify-self: center;
+    }
+  }
+
+  // ─── Mobile : même structure que tablette, version compacte ───
+  @include mobile {
+    margin: $compact-vertical-section-spacing auto;
+    padding: 2rem 1rem;
+    border-radius: $medium-corner-radius-size;
+    gap: 1.25rem;
+
+    &__heading {
+      font-size: 1.5rem;
+    }
+
+    &__intro {
+      font-size: 0.9rem;
+    }
+
+    &__grid {
+      gap: 1rem;
+    }
+
+    &__group-label {
+      padding: 0.35rem 1rem;
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+    }
+
+    &__card {
+      gap: 0.75rem;
+      padding: 1.5rem 0.75rem;
+    }
+
+    &__icon {
+      width: 60px;
+      height: 60px;
+
+      svg {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    &__name {
+      font-size: 1rem;
+    }
+
+    &__description {
+      font-size: 0.8rem;
+    }
+  }
+}

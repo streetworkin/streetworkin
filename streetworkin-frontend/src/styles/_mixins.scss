@@ -1,0 +1,126 @@
+@use "@/styles/variables" as *;
+
+// All the reusable SCSS mixins of the project. A mixin is a small named block of CSS
+// rules that we can include with `@include name;` to avoid copy-pasting the same code.
+
+
+// ─── Responsive breakpoints ────────────────────────────────────────────
+// Wrap any block inside `@include tablet { ... }` to apply it on tablets and below.
+@mixin tablet {
+  @media (max-width: $tablet-breakpoint-max-width) {
+    @content;
+  }
+}
+
+// Wrap any block inside `@include mobile { ... }` to apply it on phones only.
+@mixin mobile {
+  @media (max-width: $mobile-breakpoint-max-width) {
+    @content;
+  }
+}
+
+
+// ─── Background blur helper (Safari + standard prefix) ────────────────
+// Applies a backdrop-filter with the same value for both the Safari prefix and the
+// standard property. Saves writing the two lines every time.
+@mixin backdrop-blur($filters) {
+  -webkit-backdrop-filter: $filters;
+  backdrop-filter: $filters;
+}
+
+
+// ─── Plain rectangular button base ─────────────────────────────────────
+// Shared visual base for every "main action" rectangular button on the site.
+// Includes a subtle hover lift and a focus-visible outline for keyboard users.
+@mixin button-base {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  background: $main-brand-color-purple;
+  box-shadow: $small-button-box-shadow;
+  font-family: $main-font-family-stack;
+  font-weight: 400;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform $fast-animation-transition,
+    box-shadow $fast-animation-transition;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $strong-button-box-shadow-on-hover;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $accessibility-focus-outline-color;
+    outline-offset: 2px;
+  }
+}
+
+
+// ─── Glass bubble (the see-through frosted look used everywhere) ───────
+// Optional arguments:
+//   $blur-px : strength of the backdrop blur (default 4px; the form uses 6px)
+//   $radius  : corner radius of the bubble (default large; the dropdown uses medium)
+@mixin glass-bubble($blur-px: 4px, $radius: $large-corner-radius-size) {
+  border-radius: $radius;
+  background: $glass-effect-background-color;
+  box-shadow: $small-card-box-shadow;
+  @include backdrop-blur(blur($blur-px));
+}
+
+
+// ─── Card lift on hover ────────────────────────────────────────────────
+// Reusable hover effect used by every "card" element on the home page
+// (disciplines cards, team member cards, membership tier cards, etc.).
+@mixin card-hover-lift {
+  transition:
+    transform $fast-animation-transition,
+    background $fast-animation-transition;
+
+  &:hover {
+    transform: translateY(-3px);
+    background: $glass-effect-background-color-on-hover;
+  }
+}
+
+
+// ─── Violet pill CTA button ────────────────────────────────────────────
+// Shared visual base for "primary action" pill buttons (e.g. the header "Nous
+// rejoindre" link and the membership-checkout "Continuer" button).
+// Padding/font can be overridden after the @include if a specific call site
+// needs a tweak (the header CTA does this for instance).
+@mixin cta-button-violet {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.5rem;
+  border-radius: $small-corner-radius-size;
+  background: $main-accent-color-violet;
+  font-family: $main-font-family-stack;
+  font-size: 1rem;
+  color: white;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition:
+    transform $fast-animation-transition,
+    box-shadow $fast-animation-transition,
+    background $fast-animation-transition;
+
+  &:hover {
+    transform: translateY(-2px);
+    background: rgba($main-accent-color-violet, 0.9);
+    box-shadow: 0 6px 16px rgba($main-accent-color-violet, 0.35);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $accessibility-focus-outline-color;
+    outline-offset: 2px;
+  }
+}

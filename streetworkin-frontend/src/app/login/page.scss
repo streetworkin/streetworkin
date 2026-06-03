@@ -1,0 +1,18 @@
+// Use Mixins and Variables
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: 2rem;
+  font-family: $main-font-family-stack;
+  color: white;
+
+  @include mobile {
+    padding: 1rem;
+  }
+}

@@ -1,0 +1,20 @@
+// Use Mixins and Variables
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+
+// Page "Nous rejoindre" : layout du conteneur global qui empile les sections
+// `.membership-tiers` puis `.membership-checkout`.
+// Chaque section gère elle-même sa bulle glass et son spacing vertical
+// (cf. _section-spacing-y dans variables.scss).
+.register {
+  display: flex;
+  flex-direction: column;
+  // Décalage en haut équivalent au header sticky (120px wrapper + petit gap)
+  // pour aérer la 1ère section quand on arrive sur la page.
+  padding-top: 2rem;
+
+  @include mobile {
+    padding-top: 1rem;
+  }
+}

@@ -1,0 +1,281 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  // Transition pour l'expansion vers la pleine largeur viewport au scroll
+  // (voir &--scrolled plus bas pour le trick full-bleed)
+  transition:
+    width $fast-animation-transition,
+    margin-left $fast-animation-transition;
+
+  &__wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 120px;
+  }
+
+  &__inner {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    width: 80%;
+    height: 120px;
+    margin-top: 10px;
+    padding: 0 10px 0 20px;
+    font-family: $main-font-family-stack;
+    transition:
+      background 0.3s ease,
+      width 0.3s ease,
+      margin-top 0.3s ease,
+      border-radius 0.3s ease;
+    @include glass-bubble;
+  }
+
+  // ─── État "scrollé" : header pleine largeur du viewport ───
+  // Le parent direct du header (`.site-content`) est capé à `max-width: 1300px`.
+  // Pour que le header s'étende d'un bord à l'autre du viewport au scroll,
+  // on utilise le trick "full-bleed" : `width: 100vw` + un margin-left négatif
+  // qui annule le centrage du parent.
+  //   `calc(-50vw + 50%)` :
+  //     -50vw : tire l'élément de la moitié de la viewport vers la gauche
+  //     +50%  : compense avec la moitié de la largeur du parent (relatif au parent)
+  //     ⇒ résultat = -(viewport/2 - parent/2) = écart parent↔viewport gauche
+  &--scrolled {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+  }
+
+  // Bandeau noir flush en haut, sans border-radius — le inner remplit le 100vw du parent
+  &--scrolled &__inner {
+    width: 100%;
+    margin-top: 0;
+    border-radius: 0;
+    background: rgb(0 0 0 / 85%);
+  }
+
+  &__logo {
+    width: 120px;
+    height: 120px;
+
+    &-img {
+      display: block;
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 80px;
+  }
+
+  // Lien texte de la nav principale (desktop, tablette, dropdown burger)
+  &__nav-item {
+    text-decoration: none;
+    color: inherit;
+
+    // Déclenche aussi l'animation au focus clavier et au tap tactile
+    // (sur tactile, :hover ne se déclenche pas naturellement)
+    &:focus-visible .site-header__nav-link,
+    &:active .site-header__nav-link {
+      color: $main-accent-color-violet;
+    }
+
+    &:focus-visible .site-header__nav-link::after,
+    &:active .site-header__nav-link::after {
+      width: 100%;
+    }
+  }
+
+  &__nav-link {
+    position: relative;
+    margin: 0;
+    padding-bottom: 4px;
+    font-family: $main-font-family-stack;
+    font-size: 1.1rem;
+    color: white;
+    letter-spacing: 0.5px;
+    transition: color 0.25s ease;
+
+    // Soulignement animé qui glisse de gauche à droite
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: $main-accent-color-violet;
+      transition: width 0.25s ease;
+    }
+
+    &:hover {
+      color: $main-accent-color-violet;
+
+      &::after {
+        width: 100%;
+      }
+    }
+  }
+
+  // ─── CTA "Nous rejoindre" — colonne droite du grid (desktop/tablette) ───
+  // Sur mobile, il est masqué dans l'inner et ré-affiché en pleine largeur dans le dropdown
+  &__cta {
+    @include cta-button-violet;
+    grid-column: 3;
+    justify-self: end;
+    margin-right: 1.5rem;
+    // This specific CTA uses the deeper brand violet ($header-cta-button-color)
+    // instead of the general accent violet used by every other CTA on the site.
+    // The mixin's :hover already provides transform: translateY(-2px); we only
+    // override background and box-shadow with the deeper violet.
+    background: $header-cta-button-color;
+
+    &:hover {
+      background: rgba($header-cta-button-color, 0.9);
+      box-shadow: 0 6px 16px rgba($header-cta-button-color, 0.35);
+    }
+
+    // Variante quand affichée dans le dropdown (mobile) : pleine largeur, en flow
+    &--dropdown {
+      grid-column: auto;
+      justify-self: auto;
+      width: 80%;
+      margin-top: 0.5rem;
+    }
+  }
+
+  // Burger — masqué par défaut, visible en mobile
+  &__burger {
+    display: none;
+    grid-column: 3;        // colonne droite du grid (reste à droite quand nav--wide est masquée)
+    justify-self: end;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 8px;
+    background: $glass-effect-background-color;
+    font-size: 1.4rem;
+    color: white;
+    cursor: pointer;
+    transition: background $fast-animation-transition;
+
+    &:hover {
+      background: rgb(255 255 255 / 18%);
+    }
+  }
+
+  // Dropdown — menu déroulant mobile
+  &__dropdown {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 95%;
+    margin: 10px auto 0;
+    padding: 15px 0;
+    animation: slideDown 0.25s ease;
+    @include glass-bubble($radius: $medium-corner-radius-size);
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  // ─── Tablette ─────────────────────────────────────
+  @include tablet {
+    &__wrapper {
+      height: auto;
+    }
+
+    &__inner {
+      width: 92%;
+      height: auto;
+      padding: 10px 15px;
+    }
+
+    &__logo {
+      width: 90px;
+      height: 90px;
+
+      &-img {
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    &__nav {
+      gap: 1.5rem;
+    }
+
+    &__nav-link {
+      font-size: 1rem;
+    }
+
+    &__cta {
+      padding: 0.55rem 1.15rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  // ─── Mobile ───────────────────────────────────────
+  @include mobile {
+    &__wrapper {
+      flex-direction: column;
+      align-items: center;
+      height: auto;
+      padding: 10px 0;
+    }
+
+    &__inner {
+      width: 95%;
+      padding: 12px 15px;
+    }
+
+    &__logo {
+      width: 95px;
+      height: 95px;
+
+      &-img {
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    &__nav {
+      &--wide {
+        display: none;
+      }
+    }
+
+    // CTA dans l'inner caché — il est ré-affiché dans le dropdown via --dropdown
+    &__cta:not(&__cta--dropdown) {
+      display: none;
+    }
+
+    &__burger {
+      display: flex;
+    }
+
+    &__dropdown {
+      display: flex;
+    }
+  }
+}

@@ -1,0 +1,74 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.not-found {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: 2rem;
+
+  // Floute la vidéo de fond sur tout le viewport (la 404 n'a pas de route stable
+  // pour passer par BLURRED_VIDEO_ROUTES — on floute donc localement).
+  &::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    @include backdrop-blur(blur(12px) brightness(0.85));
+  }
+
+  &__card {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    width: 100%;
+    max-width: 460px;
+    padding: 3rem 2rem;
+    @include glass-bubble($blur-px: 6px);
+    text-align: center;
+  }
+
+  &__code {
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 5rem;
+    line-height: 1;
+    color: white;
+  }
+
+  &__message {
+    margin: 0;
+    font-family: $main-font-family-stack;
+    font-size: 1.1rem;
+    color: rgb(255 255 255 / 70%);
+  }
+
+  &__btn {
+    @include button-base;
+    width: 220px;
+    margin-top: 0.5rem;
+  }
+
+  // ─── Mobile ─── //
+  @include mobile {
+    padding: 1rem;
+
+    &__card {
+      padding: 2rem 1.5rem;
+      border-radius: $medium-corner-radius-size;
+    }
+
+    &__code {
+      font-size: 3.5rem;
+    }
+
+    &__btn {
+      width: 100%;
+    }
+  }
+}

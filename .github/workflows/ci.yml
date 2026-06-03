@@ -1,0 +1,55 @@
+name: CI — vérifications des versions
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  versions:
+    name: Runtime Node.js / npm
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du dépôt
+        uses: actions/checkout@v5
+
+      - name: Installer Node.js (LTS 22)
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Afficher les versions
+        run: |
+          set -euo pipefail
+          echo "Node.js: $(node --version)"
+          echo "npm: $(npm --version)"
+
+      - name: Vérifier Node.js >= 20
+        run: |
+          node <<'EOF'
+          const major = Number(process.version.slice(1).split(".")[0]);
+          if (Number.isNaN(major) || major < 20) {
+            console.error("Node.js 20 ou supérieur est requis, version actuelle:", process.version);
+            process.exit(1);
+          }
+          console.log("OK — Node.js", process.version);
+          EOF
+
+      - name: Vérifier npm >= 10
+        run: |
+          node <<'EOF'
+          const { execSync } = require("node:child_process");
+          const raw = execSync("npm --version", { encoding: "utf8" }).trim();
+          const major = Number(raw.split(".")[0]);
+          if (Number.isNaN(major) || major < 10) {
+            console.error("npm 10 ou supérieur est requis, version actuelle:", raw);
+            process.exit(1);
+          }
+          console.log("OK — npm", raw);
+          EOF
