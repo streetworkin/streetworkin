@@ -47,3 +47,9 @@ coverage/
 *.swp
 *.swo
 *~
+
+
+# Fichiers vidéo source non compressés (trop lourds pour GitHub, > 100 MB)
+# Les versions compressées dans public/assets/ sont elles bien versionnées.
+public/assets/fitlyon_pre.mp4
+public/assets/*.ARW
